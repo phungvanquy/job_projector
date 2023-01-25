@@ -113,5 +113,5 @@ socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect(('192.168.113.10', 23))
 valueToSend = 925
 stringToSend =  'S' + chr(int(valueToSend/100)) + chr(int(valueToSend%100)) + '\n'
-self.sock.send(stringToSend.encode('utf-8'))
+sock.send(stringToSend.encode('utf-8'))
 ```
