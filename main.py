@@ -1,5 +1,6 @@
 import socket
 from threading import Thread
+import readline
 import time
 from model.modelEncoderADC import angleToADC, ADCtoAngle
 
@@ -12,6 +13,7 @@ class Client:
 
         print(f"************* Successfully connected to TCPServer {host}:{port} ****************")
         print("SET <parameter> <value>: Set value for a parameter angle of fan")
+        print("MAX angle: 29, MIN anlge: -20 (or 340)")
         # print("GET <parameter>: Read the value of a parameter of fan")
         print("Enter the command:")
         while(True):
@@ -28,9 +30,9 @@ class Client:
                 print("Sorry! App doesn't support this cmd")
                 continue
             if(args[0].lower() == "set"):
-                value = angleToADC(args[2])
-                print('Desire Value: ', value)
-                stringToSend =  'S' + chr(int(value/1000)) + chr(int((value%1000)/100)) + chr(int((value%1000)%100))+ '\n'
+                value = int(args[2])
+                stringToSend =  'S' + chr(int(value/100)) + chr(int(value%100))+ 'E'
+                print(int(value%100))
                 self.sock.send(stringToSend.encode('utf-8'))
 
 

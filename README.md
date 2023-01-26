@@ -33,7 +33,7 @@ python3 main.py
 
 Result must be like this:
 
-```bash
+```
 ************* Successfully connected to TCPServer 192.168.113.10:23 ****************
 SET <parameter> <value>: Set value for a parameter angle of fan
 Enter the command:
@@ -63,7 +63,22 @@ set angle 10
 
 <p style="text-align:justify" >1. Из ПК TCP/IP команда (сообщение) отправлена на Arduino. В этом сообщение включено значение ADC_value для управления прожектором. Arduino получает это значение и управляет мотором так чтобы прожектор поворачивал к желаемому углу. Внимание в том что Arduino понимает только значение энкодера (ADC_value), а не значения желаемого угла </p>
 <p style="text-align:justify" >2. Как можно получить значение ADC из угла? <br> - Оно можно получить с помощью Machine learning model. Это model используется для Convert "angle" to "ADC_value".</p>
+
+```python
+from model.modelEncoderADC import angleToADC, ADCtoAngle
+angle = 350
+print("Converted ADC value:", angleToADC)
+```
+<p style="text-align:justify" > - Если converting process положим в Arduino to мы можем получить параметры у ML model:</p>
+
+```python
+from model.modelEncoderADC import reg_angleToADC_model
+print("Coef of model", reg_angleToADC_model.coef_)
+print("Bias (or Intercept) of model", reg_angleToADC_model.intercept_)
+``` 
+
 <p style="text-align:justify" >3. Почему нужно использовать Machine Learning (ML) Model? <br> - Так как во время эксперимента мы заметили что зависимость между угла и значением энкодера (ADC_value) НЕ ЛИНЕЙНО из за погрешности и сложности конструкции комплекса. Поэтому  ML model (Polynomial regression) используется для решения этой проблемы.  <br> - Суть метода заключается в том что мы измеряем значение энкодера в соответствии с разными значениями угла поворота (Файл /model/data.csv). Из этих данных мы можем построить model (функцию зависимости угла и ADC_value). Преимущество этого метода в том что тем больше данные мы измеряем, чем точнее результат получим</p>
+
 
 ## Формат TCP/IP пакета:
 
@@ -82,12 +97,12 @@ set angle 10
   <tr>
     <td>Value</td>
     <td>'S'</td>
-    <td>ADC_value_to_send / 100</td>
-    <td>ADC_value_to_send % 100</td>
-    <td>'\n'</td>
+    <td>angle_value_to_send / 100</td>
+    <td>angle_value_to_send % 100</td>
+    <td>'E'</td>
   </tr>
 </table>
-Например если мы хотим отправить ADC_value = 925 на Arduino. Тогда сообщение будет 
+Например если мы хотим отправить angle_value = 350 на Arduino. Тогда сообщение будет 
 <table style="text-align:center">
   <tr>
     <th></th>
@@ -99,8 +114,8 @@ set angle 10
   <tr>
     <td>Value</td>
     <td>'S'</td>
-    <td>9</td>
-    <td>25</td>
+    <td>3</td>
+    <td>50</td>
     <td>'\n'</td>
   </tr>
 </table>
@@ -111,7 +126,7 @@ set angle 10
 import socket
 socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect(('192.168.113.10', 23))
-valueToSend = 925
-stringToSend =  'S' + chr(int(valueToSend/100)) + chr(int(valueToSend%100)) + '\n'
+angleValueToSend = 350
+stringToSend =  'S' + chr(int(angleValueToSend/100)) + chr(int(angleValueToSend%100)) + 'E'
 sock.send(stringToSend.encode('utf-8'))
 ```
