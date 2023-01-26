@@ -116,7 +116,7 @@ print("Bias (or Intercept) of model", reg_angleToADC_model.intercept_)
     <td>'S'</td>
     <td>3</td>
     <td>50</td>
-    <td>'\n'</td>
+    <td>'E'</td>
   </tr>
 </table>
 
