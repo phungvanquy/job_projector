@@ -66,7 +66,7 @@ Angle to set:
 
 ## 4.1. Принцип работы:
 
-<p style="text-align:justify" >1. Из ПК (master) Modbus Request отправлена на Arduino (slave). В этом Request включаются значение Angle_value и адрес регистроров для управления прожектором. Arduino получает эти значений и управляет мотором так чтобы прожектор поворачивал к желаемому углу. Одновременно с этим master может читать значние текущего угла поворачивания прожектора с момощью modbus Request на читать holding регистор (1002) </p>
+<p style="text-align:justify" >1. Из ПК (master) Modbus Request запись в holding register (1001) отправлена на Arduino (slave). В этом Request включаются значение Angle_value для управления прожектором. Arduino получает эти значений и управляет мотором так чтобы прожектор поворачивал к желаемому углу. Одновременно с этим master может читать значние текущего угла поворачивания прожектора с момощью modbus Request на читать holding регистор (1002) </p>
 <p style="text-align:justify" >2. Как можно получить значение ADC из угла? <br> - Оно можно получить с помощью Machine learning model. Это model используется для Convert "angle" to "ADC_value".</p>
 
 ```python
