@@ -26,6 +26,12 @@ class Client:
         while(True):
             user_cmd = input()
             args = user_cmd.split()
+            # ======== Only for testing ==========
+            time.sleep(1)
+            stringToSend =  'G' + chr(int(10/100)) + chr(int(10%100))+ 'E'
+            self.sock.send(stringToSend.encode('utf-8'))
+            # ======== Only for testing ==========
+
             if ((len(args) < 2) or args[0].lower() not in ["get","set"] or args[1] not in ["speed", "angle"] or (True if (args[0].lower() == "set" and len(args) <3) else False) ):
                 print("Sorry! App doesn't support this cmd")
                 continue
@@ -34,6 +40,7 @@ class Client:
                 stringToSend =  'S' + chr(int(value/100)) + chr(int(value%100))+ 'E'
                 print(int(value%100))
                 self.sock.send(stringToSend.encode('utf-8'))
+
 
 
     @staticmethod
