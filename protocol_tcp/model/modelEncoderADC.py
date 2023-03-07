@@ -19,18 +19,19 @@ y = angle_val
 poly_features_ADC = poly.fit_transform(x.reshape(-1, 1))    # Add Polynimial Features from x to dataset
 reg_ADCToAngle_model = LinearRegression()                   # Create LinearRegression Model
 reg_ADCToAngle_model.fit(poly_features_ADC, y)              # Train model! Then can see model.coef_, model.intercept_
+print("model.intercept_", reg_ADCToAngle_model.intercept_)
+print("model.coef_", reg_ADCToAngle_model.coef_)
 
 
-
-#=======================================================================
-# Create model to convert Angle value to ADC value
-x = angle_val
-y = encoder_val
-poly_features_angle = poly.fit_transform(x.reshape(-1, 1))  # Add Polynimial Features from x to dataset
-reg_angleToADC_model = LinearRegression()                   # Create LinearRegression Model
-reg_angleToADC_model.fit(poly_features_angle, y)            # Train model! Then can see model.coef_, model.intercept_
-print("model.intercept_", reg_angleToADC_model.intercept_)
-print("model.coef_", reg_angleToADC_model.coef_)
+# #=======================================================================
+# # Create model to convert Angle value to ADC value
+# x = angle_val
+# y = encoder_val
+# poly_features_angle = poly.fit_transform(x.reshape(-1, 1))  # Add Polynimial Features from x to dataset
+# reg_angleToADC_model = LinearRegression()                   # Create LinearRegression Model
+# reg_angleToADC_model.fit(poly_features_angle, y)            # Train model! Then can see model.coef_, model.intercept_
+# print("model.intercept_", reg_angleToADC_model.intercept_)
+# print("model.coef_", reg_angleToADC_model.coef_)
 
 
 
